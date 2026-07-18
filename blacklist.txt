@@ -1,0 +1,7 @@
+# blacklist.txt
+# One domain per line, lowercase, no scheme/port/wildcards.
+# Lines starting with '#' and blank lines are ignored.
+# Matching is suffix-based: an entry blocks itself and all its subdomains.
+#
+# Example (uncomment to enable):
+# example.com
