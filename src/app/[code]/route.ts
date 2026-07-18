@@ -4,7 +4,7 @@ import { getAnonClient, UrlRow } from "@/lib/supabase-clients";
 export const runtime = "nodejs";
 
 // Valid code charset: 1..5 url-safe base64 chars.
-const CODE_RE = /^[A-Za-z0-9_-]{1,5}$/;
+const CODE_RE = /^[A-Za-z0-9_-]{1,10}$/;
 
 export async function GET(
   _req: NextRequest,
