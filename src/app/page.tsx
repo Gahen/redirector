@@ -61,7 +61,7 @@ export default function HomePage() {
   async function handleCopy() {
     if (!result) return;
     try {
-      await navigator.clipboard.writeText(result.shortUrl);
+      await navigator.clipboard.writeText(`https://px.ar/${result.code}`);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
