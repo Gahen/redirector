@@ -4,4 +4,4 @@
 # Matching is suffix-based: an entry blocks itself and all its subdomains.
 #
 # Example (uncomment to enable):
-# example.com
+example.com

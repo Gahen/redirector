@@ -1,0 +1,38 @@
+const RESERVED_CODES = new Set([
+  "api",
+  "login",
+  "register",
+  "dashboard",
+  "logout",
+  "admin",
+  "health",
+  "healthcheck",
+  "favicon.ico",
+  "robots.txt",
+  "sitemap.xml",
+  "manifest.json",
+  "_next",
+  "static",
+  "public",
+  "assets",
+  "css",
+  "js",
+  "images",
+  "fonts",
+  "media",
+  "404",
+  "500",
+  "error",
+  "about",
+  "terms",
+  "privacy",
+  "contact",
+  "help",
+  "docs",
+  "status",
+  "metrics",
+]);
+
+export function isReservedCode(code: string): boolean {
+  return RESERVED_CODES.has(code.toLowerCase());
+}

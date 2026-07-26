@@ -34,7 +34,10 @@ export function getServiceClient(): SupabaseClient {
 }
 
 export type UrlRow = {
+  id: string;
   code: string;
   url: string;
+  owner_id: string | null;
   created_at: string;
+  expires_at: string | null;
 };
