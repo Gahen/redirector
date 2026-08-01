@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getBrowserClient } from "@/lib/supabase-browser";
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
@@ -13,16 +14,25 @@ export default function ResetPasswordPage() {
   const router = useRouter();
 
   useEffect(() => {
-    async function checkSession() {
-      const res = await fetch("/api/auth/me");
-      const data = (await res.json()) as { authenticated: boolean };
-      if (!data.authenticated) {
-        router.push("/forgot-password");
-      } else {
+    async function init() {
+      const supabase = getBrowserClient();
+
+      const { data, error: exchangeError } = await supabase.auth.getSession();
+      if (exchangeError) {
+        setError(exchangeError.message);
         setChecking(false);
+        return;
       }
+
+      if (!data.session) {
+        router.push("/forgot-password");
+        return;
+      }
+
+      setChecking(false);
     }
-    checkSession();
+
+    init();
   }, [router]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -30,16 +40,14 @@ export default function ResetPasswordPage() {
     setLoading(true);
     setError(null);
 
-    const res = await fetch("/api/auth/update-password", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ password }),
+    const supabase = getBrowserClient();
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      password,
     });
 
-    const data = (await res.json()) as { error?: string };
-
-    if (!res.ok) {
-      setError(data.error ?? "Could not update password.");
+    if (updateError) {
+      setError(updateError.message);
       setLoading(false);
       return;
     }
@@ -48,7 +56,7 @@ export default function ResetPasswordPage() {
     setLoading(false);
 
     setTimeout(() => {
-      router.push("/login");
+      window.location.href = "/login";
     }, 3000);
   }
 
